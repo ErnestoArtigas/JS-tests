@@ -5,7 +5,8 @@ import {
   retrieveUsers,
   retrieveAlbumsByUser,
   retrieveTitlesByAlbum,
-  retrieveUserIdsPosessingAlbum,
+  retrieveUserIdsHavingAlbum,
+  alternateRetrieveUserIdsHavingAlbum,
 } from "./functions.js";
 
 import { mockedUserId, mockedAlbumId, mockedAlbum } from "./constants.js";
@@ -81,14 +82,30 @@ console.log(
 
 console.log(
   "Should return all the users id if they have at least one album",
-  retrieveUserIdsPosessingAlbum()
+  retrieveUserIdsHavingAlbum()
 );
 
 const deletedUser = users.pop();
 
 console.log(
   "Should return all the users id if they have at least one album with a modified list",
-  retrieveUserIdsPosessingAlbum()
+  retrieveUserIdsHavingAlbum()
 );
 
 users.push(deletedUser);
+
+console.log(
+  "Alternate function should return all the users id if they have at least one album",
+  alternateRetrieveUserIdsHavingAlbum()
+);
+
+// In the provided JSON file, every user has 10 albums, therefore we remove ten elements of the album array.
+const deletedAlbums = [];
+for (let i = 0; i < 10; i++) deletedAlbums.push(albums.pop());
+
+console.log(
+  "Alternate function should return all the users id if they have at least one album with a modified list",
+  alternateRetrieveUserIdsHavingAlbum()
+);
+
+for (let i = 0; i < 10; i++) albums.push(deletedAlbums.pop());

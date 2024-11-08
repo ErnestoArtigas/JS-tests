@@ -42,6 +42,11 @@ The project was divided in four files for better readibility.
 
 `constants.js` -> The constants used in main.js and test.js.
 
-The functions filter, find, findIndex, map and ternary ifs are used for clean and efficient code.
+The functions filter, find, findIndex, map, ternary ifs and default function parameters are used for clean and efficient code.
 
 The `npm run test` uses experimental node to get ECMAScript modules support, as stated on the official [documentation of jest](https://jestjs.io/docs/ecmascript-modules).
+
+The fifth function that lists the User ids having at least one album iterates on the users file and search if each user has an album. If a user doesn't have an album, it won't be displayed.
+The function isn't the fastest because it iterates on both the users and album files, but seemed to me the most logical in a object oriented programming, as part of a possible userService.
+However I developed an alternate function iterating on the album files and creating a set from the filtered user ids to get a non duplicates list in one go, being much faster in complexity.
+Both are available, tested and used in the program.

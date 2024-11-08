@@ -5,8 +5,9 @@ import {
   retrieveUsers,
   retrieveAlbumsByUser,
   retrieveTitlesByAlbum,
-  retrieveUserIdsPosessingAlbum,
-  hasUserAnAlbum,
+  retrieveUserIdsHavingAlbum,
+  doesUserHaveAlbum,
+  alternateRetrieveUserIdsHavingAlbum,
 } from "./functions.js";
 
 import { mockedUserId, mockedAlbumId, mockedAlbum } from "./constants.js";
@@ -83,18 +84,36 @@ describe("JS Test - 4", () => {
 
 describe("JS Test - 5", () => {
   test("Should return all the users id if they have at least one album", () => {
-    expect(retrieveUserIdsPosessingAlbum()).toEqual(
-      users.filter(hasUserAnAlbum).map((user) => user.id)
+    expect(retrieveUserIdsHavingAlbum()).toEqual(
+      users.filter(doesUserHaveAlbum).map((user) => user.id)
     );
   });
 
   test("Should return all the users id if they have at least one album with a modified list", () => {
     const deletedUser = users.pop();
 
-    expect(retrieveUserIdsPosessingAlbum()).toEqual(
-      users.filter(hasUserAnAlbum).map((user) => user.id)
+    expect(retrieveUserIdsHavingAlbum()).toEqual(
+      users.filter(doesUserHaveAlbum).map((user) => user.id)
     );
 
     users.push(deletedUser);
+  });
+
+  test("Alternate function should return all the users id if they have at least one album", () => {
+    expect(alternateRetrieveUserIdsHavingAlbum()).toEqual(
+      users.filter(doesUserHaveAlbum).map((user) => user.id)
+    );
+  });
+
+  test("Alternate function should return all the users id if they have at least one album with a modified list", () => {
+    // In the provided JSON file, every user has 10 albums, therefore we remove ten elements of the album array.
+    const deletedAlbums = [];
+    for (let i = 0; i < 10; i++) deletedAlbums.push(albums.pop());
+
+    expect(alternateRetrieveUserIdsHavingAlbum()).toEqual(
+      users.filter(doesUserHaveAlbum).map((user) => user.id)
+    );
+
+    for (let i = 0; i < 10; i++) albums.push(deletedAlbums.pop());
   });
 });

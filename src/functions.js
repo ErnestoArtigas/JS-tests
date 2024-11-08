@@ -26,10 +26,14 @@ export function retrieveTitlesByAlbum(albumId) {
 }
 
 // 5
-export function retrieveUserIdsPosessingAlbum() {
-  return users.filter(hasUserAnAlbum).map((user) => user.id);
+export function retrieveUserIdsHavingAlbum() {
+  return users.filter(doesUserHaveAlbum).map((user) => user.id);
 }
 
-export function hasUserAnAlbum(user) {
+export function doesUserHaveAlbum(user) {
   return albums.findIndex((album) => album.userId === user.id) !== -1;
+}
+
+export function alternateRetrieveUserIdsHavingAlbum() {
+  return [...new Set(albums.map((album) => album.userId))];
 }
