@@ -19,4 +19,3 @@ Data manipulation (json) in javascript
 - The code must be clean, indented and understandable by a novice.
 - Tests are welcome.
 - Each function should be easily to test.
-
