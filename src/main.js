@@ -1,45 +1,94 @@
-import fs from "fs";
+import {
+  albums,
+  users,
+  retrieveAlbums,
+  retrieveUsers,
+  retrieveAlbumsByUser,
+  retrieveTitlesByAlbum,
+  retrieveUserIdsPosessingAlbum,
+} from "./functions.js";
 
-const albums = JSON.parse(fs.readFileSync("albums.json"));
-const users = JSON.parse(fs.readFileSync("users.json"));
+import { mockedUserId, mockedAlbumId, mockedAlbum } from "./constants.js";
 
-// 1
-function retrieveUsers(userId = undefined) {
-  return userId ? users.find((user) => user.id === userId) : users;
-}
+// JS Test - 1
 
-// 2
-function retrieveAlbums(albumId = undefined) {
-  return albumId ? albums.find((album) => album.id === albumId) : albums;
-}
+console.log(
+  "Should return all users if no parameters provided",
+  retrieveUsers()
+);
 
-// 3
-function retrieveAlbumsByUser(userId) {
-  return albums.filter((album) => album.userId === userId);
-}
+console.log(
+  "Should return a specific user if parameter provided",
+  retrieveUsers(mockedUserId)
+);
 
-// 4
-// function retrieveAlbumsByUser(userId) {
-//   return albums.filter((album) => album.userId === userId);
-// }
+console.log(
+  "Should return an undefined if the parameter provided is incorrect",
+  retrieveUsers(-1)
+);
 
-// 5
-function retrieveUserIdsPosessingAlbum() {
-  return users.filter(hasUserAnAlbum).map((user) => user.id);
-}
+// JS Test - 2
 
-function hasUserAnAlbum(user) {
-  const index = albums.findIndex((album) => album.userId === user.id);
-  console.log("index", index);
-  return index !== -1;
-}
+console.log(
+  "Should return all albums if no parameters provided",
+  retrieveAlbums()
+);
 
-// console.log("Users", retrieveUsers());
-// console.log("User ID", retrieveUsers(10));
+console.log(
+  "Should return a specific album if parameter provided",
+  retrieveAlbums(mockedAlbumId)
+);
 
-// console.log("Albums", retrieveAlbums());
-// console.log("Album ID", retrieveAlbums(10));
+console.log(
+  "Should return an undefined if the parameter provided is incorrect",
+  retrieveAlbums(-1)
+);
 
-// console.log("Albums by User", retrieveAlbumsByUser(10));
+// JS Test - 3
 
-console.log("UserId that have one album", retrieveUserIdsPosessingAlbum());
+console.log(
+  "Should return all album a user has",
+  retrieveAlbumsByUser(mockedUserId)
+);
+
+console.log(
+  "Should return an empty array if the user doesn't have albums",
+  retrieveAlbumsByUser(12345)
+);
+
+// "JS Test - 4"
+
+console.log(
+  "Should return all titles from an album",
+  retrieveTitlesByAlbum(mockedAlbumId)
+);
+
+albums.push(mockedAlbum);
+
+console.log(
+  "Should return all titles from an album with a modified list",
+  retrieveTitlesByAlbum(mockedAlbumId)
+);
+
+albums.pop();
+
+console.log(
+  "Should return an empty array if the parameter provided is incorrect",
+  retrieveTitlesByAlbum(12345)
+);
+
+// JS Test - 5
+
+console.log(
+  "Should return all the users id if they have at least one album",
+  retrieveUserIdsPosessingAlbum()
+);
+
+const deletedUser = users.pop();
+
+console.log(
+  "Should return all the users id if they have at least one album with a modified list",
+  retrieveUserIdsPosessingAlbum()
+);
+
+users.push(deletedUser);
